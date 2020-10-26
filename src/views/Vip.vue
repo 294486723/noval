@@ -9,21 +9,18 @@
         <div class="vip-top">
             <div class="filter-item">
                 <ul class="kind-item">
-                    <li @click="sexclick(index)" v-for="(gender,index) in genders" :key="index">{{gender}}</li>
+                    <li :class="{corlorchange:index==sexflag}" @click="sexclick(index)" v-for="(gender,index) in genders" :key="index">{{gender}}</li>
                 </ul>
             </div>
             <div class="filter-item">
                 <ul class="kind-item">
-                    <li @click="getdata(val1,index1)" v-for="(val1,index1) in major" :key="index1">{{val1.major}}</li>
-                    <!-- <ul class="kind-item">
-                        <li v-for="(val2,index2) in val1.mins" :key="index2">{{val2}}</li>
-                    </ul> -->
+                    <li :class="{corlorchange:index1==majorflag}" @click="getdata(val1,index1)" v-for="(val1,index1) in major" :key="index1">{{val1.major}}</li>
                 </ul>
 
             </div>
             <div class="filter-item">
                 <ul class="kind-item">
-                    <li @click="mins(val1)" v-for="(val1,index1) in booklists" :key="index1">{{val1}}</li>
+                    <li :class="{corlorchange:index1==yt}" @click="mins(val1)" v-for="(val1,index1) in booklists" :key="index1">{{val1}}</li>
                 </ul>
             </div>
         </div>
@@ -48,7 +45,7 @@ export default {
     },
     data() {
         return {
-            genders: ['男生', '女生', '出版'],
+            genders: ['男生', '女生', ],
             booklists: [],
             type: 'hot',
             sexkinds: [], //控制三大类的数据
@@ -58,26 +55,12 @@ export default {
             majorflag: 0,
             two: '玄幻',
             three: '东方玄幻',
-            bookitem: []
+            bookitem: [],
+            yt:0
         }
     },
     methods: {
-        sexclick(i){
-            this.sexflag = i
-            if (i == 0) {
-                this.sextype = 'male'
-            } else if (i == 1) {
-                this.sextype = 'female'
-            } else {
-                this.sextype = 'press'
-            }
-        },
-        // getdata(i,t){
-        //     this.axios.get('api/cats/lv2').then(res=>{
-        //         console.log(888,res);
-        //     })
-        // }
-        // sexclick(i) {
+        // sexclick(i){
         //     this.sexflag = i
         //     if (i == 0) {
         //         this.sextype = 'male'
@@ -86,68 +69,94 @@ export default {
         //     } else {
         //         this.sextype = 'press'
         //     }
-        //     this.getdata(this.major[0].major, 0)
-        //     this.mins(this.booklists[0])
         // },
-        //控制分类
-        // getdata(i, t) {
-        //     console.log(7474, i, t);
-        //     this.majorflag = t
-        //     //  this.two =i.major
-        //     console.log();
-        //     this.axios.get('api/cats/lv2').then(res => {
-        //         console.log(5858, res);
-        //         this.sexkinds[0] = res.data.male
-        //         this.sexkinds[1] = res.data.female
-        //         this.sexkinds[2] = res.data.press
-        //         this.major = this.sexkinds[this.sexflag]
-        //         this.booklists = this.major[this.majorflag].mins
-        //         console.log(5252, this.booklists)
-        //         this.mins(this.booklists[0])
-        //     }).catch(err => {
-        //         console.log(err);
-        //     });
-        //     this.two = i.major
-
-        // },
-        // mins(i) {
-        //     this.three = i
-        //     this.axios.get('api/book/by-categories?gender=' + this.sextype + '&type=' + this.type + '&major=' + this.two + '&minor=' + this.three + '&start=0&limit=20').then(res => {
-        //         console.log(45, res.data);
-        //        this.bookitem = res.data.books
-        //     }).catch(err => {
-        //         console.log(err);
+        // getdata(i,t){
+        //     this.axios.get('api/cats/lv2').then(res=>{
+        //         console.log(888,res);
         //     })
-        // }
+        // },
+        sexclick(i) {
+            this.sexflag = i
+            if (i == 0) {
+                this.sextype = 'male'
+            } else  {
+                this.sextype = 'female'
+            }
+            // } else {
+            //     this.sextype = 'press'
+            // }
+            this.getdata(this.major[0].major, 0)
+            this.two=this.major[0].major
+           
+            this.mins(this.booklists[0])
+             this.three=this.booklists[0]
+            // console.log(this.booklists[0]);
+            // console.log(this.booklists[0]);
+        },
+        // 控制分类
+        getdata(i, t) {
+            console.log(7474, i, t);
+            this.majorflag = t
+            //  this.two =i.major
+            console.log();
+            this.axios.get('api/cats/lv2').then(res => {
+                console.log(5858, res);
+                this.sexkinds[0] = res.data.male
+                this.sexkinds[1] = res.data.female
+                // this.sexkinds[2] = res.data.press
+                this.major = this.sexkinds[this.sexflag]
+                this.booklists = this.major[this.majorflag].mins
+                console.log(5252, this.booklists)
+                this.mins(this.booklists[t])
+            }).catch(err => {
+                console.log(err);
+            });
+            this.two = i.major
+
+        },
+        mins(i,t) {
+            this.three = i
+            this.yt=t
+            this.axios.get('api/book/by-categories?gender=' + this.sextype + '&type=' + this.type + '&major=' + this.two + '&minor=' + this.three + '&start=0&limit=20').then(res => {
+                console.log(45, res.data);
+               this.bookitem = res.data.books
+            }).catch(err => {
+                console.log(err);
+            })
+        }
 
     },
     // mounted(){
     //     this 
     // }
-    // mounted() {
-    //     this.axios.get('api/cats/lv2').then(res => {
-    //         console.log(5858, res);
-    //         this.sexkinds[0] = res.data.male
-    //         this.sexkinds[1] = res.data.female
-    //         this.sexkinds[2] = res.data.press
-    //         this.major = this.sexkinds[this.sexflag]
-    //         this.booklists = this.major[this.majorflag].mins
-    //         console.log(5252, this.booklists)
-    //         this.axios.get('api/book/by-categories?gender=' + this.sextype + '&type=' + this.type + '&major=' + this.two + '&minor=' + this.three + '&start=0&limit=20').then(res => {
-    //             console.log(4545, res.data);
-    //             this.bookitem = res.data.books
-    //             console.log(7575,this.bookitem);
-    //         }).catch(err => {
-    //             console.log(err);
-    //         })
-    //     }).catch(err => {
-    //         console.log(err);
-    //     });
-    // }
+    mounted() {
+        this.axios.get('api/cats/lv2').then(res => {
+            console.log(5858, res);
+            this.sexkinds[0] = res.data.male
+            this.sexkinds[1] = res.data.female
+            this.sexkinds[2] = res.data.press
+            this.major = this.sexkinds[this.sexflag]
+            this.booklists = this.major[this.majorflag].mins
+            console.log(this.major);
+            console.log(5252, this.booklists)
+            this.axios.get('api/book/by-categories?gender=' + this.sextype + '&type=' + this.type + '&major=' + this.two + '&minor=' + this.three + '&start=0&limit=20').then(res => {
+                console.log(4545, res.data);
+                this.bookitem = res.data.books
+                console.log(7575,this.bookitem);
+            }).catch(err => {
+                console.log(err);
+            })
+        }).catch(err => {
+            console.log(err);
+        });
+    }
 }
 </script>
 
 <style scoped>
+.corlorchange{
+    color: #58B6d8;
+}
 .po{
     position: fixed;
     width: 100%;

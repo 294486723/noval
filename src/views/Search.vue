@@ -39,6 +39,7 @@ export default {
             this.axios.get('api/book/auto-complete?query=' + this.vvalue).then(res => {
                 console.log(111, res);
                 this.iptval = res.data.keywords
+                
             }).catch(err => {
                 console.log(err);
             })

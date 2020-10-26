@@ -11,13 +11,46 @@
                 <i class="right-home"></i>
             </div>
         </div>
-        <div class="login-moble">
+        <!-- <div class="login-moble">
             <div class="login-top">手机登陆</div>
             <div class="login-bottom">
                 <form action="">
                     <input type="text" placeholder="请输入用户名">
                 </form>
             </div>
+        </div> -->
+        <div class="logintop">
+            <div class="third">
+                第三方账号登录
+            </div>
+            <div class="loginkind">
+                <router-link to="/qq" class="loginitem">
+                    <span class="qq"></span>
+                    <h3>QQ</h3>
+                </router-link>
+                <router-link to="/qq" class="loginitem">
+                    <span class="bd"></span>
+                    <h3>百度</h3>
+                </router-link>
+                <router-link to="/qq" class="loginitem">
+                    <span class="wb"></span>
+                    <h3>微博</h3>
+                </router-link>
+            </div>
+            <router-link :to="'/loginkj?returnUrl='+$route.query.returnUrl" class="kj">
+                酷匠账号登录>
+            </router-link>
+        </div>
+        <div class="k_border"></div>
+        <div class="loginbottom">
+            <p class="desc">微信扫码关注公众号【酷匠好书】，方便下次阅读</p>
+            <img src="http://s.kjcdn.com/groundwork/images/qrcode/kjwx.jpg" alt="" class="qrcode">
+            <p class="agree">
+                登录即代表您已同意酷匠
+                <router-link to="/serve">《服务协议》</router-link>
+                和
+                <router-link to="/private">《隐私条款》</router-link>
+            </p>
         </div>
     </div>
 </template>
@@ -36,6 +69,13 @@ export default {
     text-align: center;
     width: 50%;
 }
+/* .login{
+    padding-top: 0.92rem;
+    max-width: 8rem;
+    margin: 0 auto;
+    font-size: 0.28rem;
+    color: #333;
+} */
 .detail-top {
     display: flex;
     font-size: 12px;
@@ -82,5 +122,82 @@ export default {
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: 50%;
+}
+.logintop,
+.loginbottom {
+    width: 100%;
+    text-align: center;
+}
+.third {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 24px;
+    position: relative;
+    font-size: 15px;
+    color: #999999;
+    text-align: center;
+}
+.third::before,
+.third::after {
+    content: "";
+    display: inline-block;
+    width: 20%;
+    margin: 5px 3%;
+    border-bottom: 1px solid #e4e4e4;
+}
+.loginkind {
+    margin: 30px 10px 20px 10px;
+    color: #222;
+}
+.loginitem {
+    display: inline-block;
+    width: 24%;
+}
+
+.loginitem span {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    background: url("http://s.kjcdn.com/wap/main/images/icon/mine/login.png")
+        no-repeat;
+    background-size: cover;
+}
+.loginitem .qq {
+    background-position-x: 0;
+}
+.loginitem .bd {
+    background-position-x: -124px;
+}
+.loginitem .wb {
+    background-position-x: -186px;
+}
+.loginitem h3 {
+    line-height: 28px;
+    font-size: 14px;
+    color: #333;
+}
+.kj {
+        font-size: 24px;
+    display: block;
+    color: #58b6d8;
+    margin: 0 0 20px 0;
+    
+}
+.desc {
+    padding: 38px 0 37px 0;
+    color: #2b2b2b;
+    font-size: 14px;
+}
+.qrcode {
+    width: 124px;
+    height: 124px;
+}
+.agree {
+    padding: 40px 0 0 0;
+    font-size: 13px;
+    color: #bbbbbb;
+}
+.agree a {
+    color: #2b2b2b;
 }
 </style>
